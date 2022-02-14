@@ -1,0 +1,34 @@
+service: wordle-solver
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-rust
+
+custom:
+  rust:
+    dockerTag: '0.4.0-rust-1.58.1'
+    dockerImage: 'rustserverless/lambda-rust'
+    cargoFlags: '--features lambda'
+
+provider:
+  name: aws
+  region: eu-west-2
+  timeout: 5
+  tracing:
+    lambda: true
+
+package:
+  individually: true
+  patterns:
+    - '!./**'
+  iam:
+    managedPolicies:
+      - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
+
+functions:
+  generate_guesses:
+    handler: wordle-solver.generate_guesses
+    runtime: rust
+    environment:
+      RUST_LOG: info

@@ -1,0 +1,30 @@
+[package]
+name = "wordle-solver"
+authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
+version = "0.1.0"
+edition = "2021"
+description = "Library for solving Wordle puzzles"
+readme = "README.md"
+rust-version = "1.58.1"
+repository = "https://github.com/benjaminjellis/worlde-solver"
+license = "MIT"
+
+[dependencies]
+anyhow = "1.0.53"
+itertools = "0.10.3"
+tokio = { version = "1.16.1", features = ["full"] }
+tracing = "0.1"
+rayon = "1.5.1"
+
+lambda_runtime = { version = "0.4.1", optional = true  }
+serde = {version = "1.0.136", features = ["derive"], optional = true }
+serde_json = { version = "1.0.73", optional = true }
+tracing-subscriber = { version = "0.2", features = ["fmt", "json"],  optional = true }
+
+[features]
+lambda = ["lambda_runtime", "serde", "serde_json", "tracing-subscriber"]
+
+[[bin]]
+path="src/functions/generate_guesses.rs"
+name="generate_guesses"
+required-features=["lambda"]
