@@ -16,6 +16,8 @@ struct Request {
     excluded_letters: Vec<String>,
     /// letters that are in the word but not placed yet
     unplaced_letters: Vec<String>,
+    /// placements of letters that have been ruled out
+    excluded_placements: Vec<String>,
 }
 
 /// Response from the lambda function
@@ -39,6 +41,7 @@ async fn handler(event: Request, _: Context) -> Result<Response, Error> {
         event.current_state,
         event.excluded_letters,
         event.unplaced_letters,
+        event.excluded_placements,
     )?;
     Ok(Response {
         word_suggestions: guesses,

@@ -1,5 +1,16 @@
 {
-  "current_state": "CR__E",
-  "excluded_letters": "X,Y,V,B,M,Q,W,T",
-  "unplaced_letters": "A"
+  "current_state": "C__NE",
+  "excluded_letters": [
+    "E",
+    "W",
+    "T",
+    "H",
+    "B",
+    "D"
+  ],
+  "unplaced_letters": [
+    "A"
+  ],
+  "excluded_placements": ["_A__"
+  ]
 }
