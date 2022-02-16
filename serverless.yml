@@ -30,5 +30,7 @@ functions:
   generate_guesses:
     handler: wordle-solver.generate_guesses
     runtime: rust
+    events:
+      - http: POST generate-guesses
     environment:
       RUST_LOG: info

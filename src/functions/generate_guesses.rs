@@ -2,14 +2,18 @@
 #![warn(clippy::pedantic)]
 #![warn(missing_docs)]
 
-use lambda_runtime::{handler_fn, Context, Error};
+use lambda_http::{
+    handler,
+    lambda_runtime::{run, Context, Error}, IntoResponse, Request, Response,
+};
 use serde::{Deserialize, Serialize};
+use serde_json::{to_string, from_slice};
 use tracing::instrument;
 use wordle_solver::{generate_guesses, utils::setup_tracing};
 
 /// Request made to the lambda function
 #[derive(Debug, Serialize, Deserialize)]
-struct Request {
+struct RequestBody {
     /// current state of the guess
     current_state: String,
     /// letters that have been excluded by previous guesses
@@ -22,7 +26,7 @@ struct Request {
 
 /// Response from the lambda function
 #[derive(Debug, Serialize, Deserialize)]
-struct Response {
+struct ResponseBody {
     /// suggested words
     word_suggestions: Vec<String>,
 }
@@ -30,20 +34,26 @@ struct Response {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     setup_tracing();
-    let func = handler_fn(handler);
-    lambda_runtime::run(func).await?;
+    let func = handler(handler_fn);
+    run(func).await?;
     Ok(())
 }
 
 #[instrument]
-async fn handler(event: Request, _: Context) -> Result<Response, Error> {
+async fn handler_fn(event: Request, _: Context) -> Result<impl IntoResponse, Error> {
+    let body = event.body();
+    let rb: RequestBody = from_slice(body)?;
     let guesses = generate_guesses(
-        event.current_state,
-        event.excluded_letters,
-        event.unplaced_letters,
-        event.excluded_placements,
+        rb.current_state,
+        rb.excluded_letters,
+        rb.unplaced_letters,
+        rb.excluded_placements,
     )?;
-    Ok(Response {
+    let response_body = to_string(&ResponseBody {
         word_suggestions: guesses,
-    })
+    })?;
+    Ok(Response::builder()
+        .status(200)
+        .body(response_body)
+        .expect("Failed"))
 }
