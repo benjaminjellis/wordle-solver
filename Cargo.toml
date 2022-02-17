@@ -1,7 +1,7 @@
 [package]
 name = "wordle-solver"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 description = "Library for solving Wordle puzzles"
 readme = "README.md"

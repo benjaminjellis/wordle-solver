@@ -21,7 +21,7 @@ pub type Dictionary = Vec<Vec<String>>;
 #[instrument]
 fn load_dict(dict_file: Vec<u8>) -> Result<Dictionary> {
     let dict_string = String::from_utf8(dict_file)?;
-    let dict: Dictionary = dict_string.split("\r\n").map(word_to_vec).collect();
+    let dict: Dictionary = dict_string.split("\n").map(word_to_vec).collect();
     Ok(dict)
 }
 
@@ -99,8 +99,10 @@ pub fn generate_guesses(
         .into_iter()
         .map(|s| s.to_lowercase())
         .collect();
-    let dict_file = include_bytes!("../dictionary/five_letter_words.txt").to_vec();
+    //let dict_file = include_bytes!("../dictionary/five_letter_words.txt").to_vec();
+    let dict_file = include_bytes!("../dictionary/words.txt").to_vec();
     let dict: Dictionary = load_dict(dict_file)?;
+    //dbg!(&dict);
     state = state.to_lowercase();
     let format_state = word_to_vec(state.as_str());
     let excluded_placements_state = excluded_placements

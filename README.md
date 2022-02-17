@@ -54,5 +54,9 @@ This can be done using the following commands (provided you have your AWS creden
 npm install -D serverless
 npm  install -D https://github.com/softprops/serverless-rust
 npx serverless deploy
-
 ```
+
+
+## Credits 
+
+This project makes use of a list of worlde words which were sourced from [here](https://github.com/tabatkins/wordle-list)
