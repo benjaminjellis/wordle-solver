@@ -16,7 +16,7 @@ custom:
 provider:
   name: aws
   region: eu-west-2
-  stage: dev
+  stage: prod
   timeout: 5
   tracing:
     lambda: true
