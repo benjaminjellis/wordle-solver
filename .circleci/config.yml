@@ -27,7 +27,7 @@ jobs:
             npm install -D serverless-plugin-log-retention
       - run:
           name: Deploy
-          command: npx serverless deploy -v
+          command: npx serverless deploy --verbose
 
 workflows:
   pr:
