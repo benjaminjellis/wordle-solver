@@ -4,10 +4,8 @@ frameworkVersion: '3'
 
 plugins:
   - serverless-rust
-  - serverless-plugin-log-retention
 
 custom:
-  logRetentionInDays: 60
   rust:
     dockerTag: '0.4.0-rust-1.58.1'
     dockerImage: 'rustserverless/lambda-rust'
@@ -31,10 +29,16 @@ package:
     - '!./**'
 
 functions:
-  generate_guesses:
+  GenerateGuesses:
     handler: wordle-solver.generate_guesses
     runtime: rust
     events:
       - http: POST /generate-guesses
     environment:
       RUST_LOG: info
+
+resources:
+  extensions:
+    GenerateGuessesLogGroup:
+      Properties:
+        RetentionInDays: '60'

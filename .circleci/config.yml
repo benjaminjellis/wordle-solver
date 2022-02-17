@@ -24,7 +24,6 @@ jobs:
           command: |
             npm install -D serverless@3.0.1
             npm install -D https://github.com/softprops/serverless-rust
-            npm install -D serverless-plugin-log-retention
       - run:
           name: Deploy
           command: npx serverless deploy --verbose
