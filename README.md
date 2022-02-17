@@ -53,6 +53,7 @@ This can be done using the following commands (provided you have your AWS creden
 ```shell
 npm install -D serverless
 npm  install -D https://github.com/softprops/serverless-rust
+npm install -D serverless-plugin-log-retention
 npx serverless deploy
 ```
 
