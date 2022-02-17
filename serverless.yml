@@ -16,24 +16,25 @@ custom:
 provider:
   name: aws
   region: eu-west-2
-  stage: prod
+  stage: dev
   timeout: 5
   tracing:
     lambda: true
+  iam:
+    role:
+      managedPolicies:
+        - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
 
 package:
   individually: true
   patterns:
     - '!./**'
-  iam:
-    managedPolicies:
-      - 'arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess'
 
 functions:
   generate_guesses:
     handler: wordle-solver.generate_guesses
     runtime: rust
     events:
-      - http: POST generate-guesses
+      - http: POST /generate-guesses
     environment:
       RUST_LOG: info
