@@ -4,8 +4,10 @@ frameworkVersion: '3'
 
 plugins:
   - serverless-rust
+  - serverless-plugin-log-retention
 
 custom:
+  logRetentionInDays: 60
   rust:
     dockerTag: '0.4.0-rust-1.58.1'
     dockerImage: 'rustserverless/lambda-rust'
@@ -14,6 +16,7 @@ custom:
 provider:
   name: aws
   region: eu-west-2
+  stage: prod
   timeout: 5
   tracing:
     lambda: true

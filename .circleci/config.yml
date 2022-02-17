@@ -1,0 +1,50 @@
+version: 2.1
+
+orbs:
+  rust: circleci/rust@1.6.0
+
+jobs:
+  deploy:
+    machine:
+      image: ubuntu-2004:202201-02
+    steps:
+      - checkout
+      - run:
+          name: Setup
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Upgrade npm
+          command: |
+            nvm install v16.13.2
+            nvm alias default v16.13.2
+      - run:
+          name: Install serverless frameowrk and plugins
+          command: |
+            npm install -D serverless@3.0.1
+            npm install -D https://github.com/softprops/serverless-rust
+            npm install -D serverless-plugin-log-retention
+      - run:
+          name: Deploy
+          command: npx serverless deploy -v
+
+workflows:
+  pr:
+    jobs:
+      - rust/lint-test-build:
+          release: true
+          version: 1.58.1
+          clippy_arguments: '--all-features'
+          filters:
+            branches:
+              ignore:
+                - master
+
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
