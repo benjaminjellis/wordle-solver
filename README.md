@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/benjaminjellis/worlde-solver/tree/master.svg?style=svg)](https://circleci.com/gh/benjaminjellis/worlde-solver/tree/master) ![MSRV](https://img.shields.io/badge/msrv-1.58.0-red)
+[![CircleCI](https://circleci.com/gh/benjaminjellis/wordle-solver/tree/master.svg?style=svg)](https://circleci.com/gh/benjaminjellis/wordle-solver/tree/master) ![MSRV](https://img.shields.io/badge/msrv-1.58.0-red)
 # Wordle-Solver
 
 Tool for suggesting words to solve wordle puzzles. 
