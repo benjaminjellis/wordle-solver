@@ -46,7 +46,7 @@ println!("{:?}", gussess);
 
 ## Deployment 
 
-This repo uses the [serverless framework](https://www.serverless.com/) to deploy the crate as a serverless application / lambda function. 
+This repo uses the [serverless framework](https://www.serverless.com/) to deploy the crate as a HTTP Rest API using AWS' API Gateway to route requests to a Lambda function
 
 This can be done using the following commands (provided you have your AWS credentials configured correctly): 
 
@@ -56,6 +56,8 @@ npm  install -D https://github.com/softprops/serverless-rust
 npm install -D serverless-plugin-log-retention
 npx serverless deploy
 ```
+
+This deployment allows the tool to be used as a backend for a web extension called [auto-wrodle](https://github.com/BrownKnight/auto-wordle)
 
 
 ## Credits 
