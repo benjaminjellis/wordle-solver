@@ -2,10 +2,7 @@
 #![warn(clippy::pedantic)]
 #![warn(missing_docs)]
 
-use lambda_http::{
-    handler,
-    lambda_runtime::{run, Context, Error}, IntoResponse, Request, Response,
-};
+use lambda_http::{service_fn, run, Error, IntoResponse, Request, Response};
 use serde::{Deserialize, Serialize};
 use serde_json::{to_string, from_slice};
 use tracing::instrument;
@@ -34,20 +31,19 @@ struct ResponseBody {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     setup_tracing();
-    let func = handler(handler_fn);
-    run(func).await?;
+    run(service_fn(handler_fn)).await?;
     Ok(())
 }
 
 #[instrument]
-async fn handler_fn(event: Request, _: Context) -> Result<impl IntoResponse, Error> {
+async fn handler_fn(event: Request) -> Result<impl IntoResponse, Error> {
     let body = event.body();
-    let rb: RequestBody = from_slice(body)?;
+    let request_body: RequestBody = from_slice(body)?;
     let guesses = generate_guesses(
-        rb.current_state,
-        rb.excluded_letters,
-        rb.unplaced_letters,
-        rb.excluded_placements,
+        request_body.current_state,
+        request_body.excluded_letters,
+        request_body.unplaced_letters,
+        request_body.excluded_placements,
     )?;
     let response_body = to_string(&ResponseBody {
         word_suggestions: guesses,
