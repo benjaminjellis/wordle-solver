@@ -21,7 +21,7 @@ pub type Dictionary = Vec<Vec<String>>;
 #[instrument]
 fn load_dict(dict_file: Vec<u8>) -> Result<Dictionary> {
     let dict_string = String::from_utf8(dict_file)?;
-    let dict: Dictionary = dict_string.split("\n").map(word_to_vec).collect();
+    let dict: Dictionary = dict_string.split('\n').map(word_to_vec).collect();
     Ok(dict)
 }
 
