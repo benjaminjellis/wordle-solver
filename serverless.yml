@@ -14,7 +14,8 @@ custom:
 provider:
   name: aws
   region: eu-west-2
-  stage: prod
+  stage: dev
+  memorySize: 128
   timeout: 5
   tracing:
     lambda: true
@@ -33,7 +34,10 @@ functions:
     handler: wordle-solver.generate_guesses
     runtime: rust
     events:
-      - http: POST /generate-guesses
+      - http:
+          path: /generate-guesses
+          method: POST
+          cors: true
     environment:
       RUST_LOG: info
 
