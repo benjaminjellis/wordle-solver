@@ -50,6 +50,8 @@ async fn handler_fn(event: Request) -> Result<impl IntoResponse, Error> {
     })?;
     Ok(Response::builder()
         .status(200)
+        .header("Access-Control-Allow-Origin", "*")
+        .header("Access-Control-Allow-Credentials", "true")
         .body(response_body)
         .expect("Failed"))
 }
