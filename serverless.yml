@@ -14,8 +14,8 @@ custom:
 provider:
   name: aws
   region: eu-west-2
-  stage: dev
-  memorySize: 128
+  stage: prod
+  memorySize: 300
   timeout: 5
   tracing:
     lambda: true
